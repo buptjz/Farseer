@@ -1,7 +1,7 @@
 from django.db import models
+from django.utils.encoding import smart_unicode
 
 # Create your models here.
-
 
 class Page(models.Model):
     def __str__(self):
@@ -11,3 +11,21 @@ class Page(models.Model):
     url = models.URLField(max_length=200)
     content = models.TextField()
     scrawl_date = models.DateTimeField('date scrawling')
+
+
+class Gossip(models.Model):
+    """Model of a Gossip"""
+    # def __str__(self):
+    #     return smart_unicode(self.title)
+    def __unicode__(self):
+        return smart_unicode(self.title)
+
+    url = models.URLField(max_length=200, null=True)
+    title = models.CharField(max_length=300)
+    content = models.TextField()
+    author = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    source = models.CharField(max_length=300)
+    publish_date = models.DateTimeField(null=True)
+    scrawl_date = models.DateTimeField(null=True)
+    status = models.IntegerField(null=True)

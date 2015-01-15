@@ -7,9 +7,9 @@
 
 import scrapy
 from scrapy.contrib.djangoitem import DjangoItem
-from spider.models import Page
+from spider.models import Gossip
 
 class ScrapySpiderItem(DjangoItem):
-    django_model = Page
+    django_model = Gossip
     # define the fields for your item here like:
     # name = scrapy.Field()
