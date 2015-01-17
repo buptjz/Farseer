@@ -1,5 +1,5 @@
 # Django settings for Farseer project.
-
+import os.path
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -8,7 +8,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -22,7 +22,6 @@ DATABASES = {
 }
 
 """
-#used in sae
 import sae.const
 DATABASES = {
     'default': {
@@ -34,7 +33,7 @@ DATABASES = {
         'PORT': sae.const.MYSQL_PORT,
     }
 }
-"""
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -110,7 +109,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
@@ -126,6 +125,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__),'templates'),
 )
 
 INSTALLED_APPS = (
