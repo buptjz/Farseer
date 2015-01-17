@@ -10,9 +10,9 @@ from scrapy_spider.items import ScrapySpiderItem
 from spider.models import Gossip
 from datetime import date, datetime, timedelta
 
-#http://stackoverflow.com/questions/25939719/django-ver-1-7-appregistrynotready-models-arent-loaded-yet
-import django
-django.setup()
+# #http://stackoverflow.com/questions/25939719/django-ver-1-7-appregistrynotready-models-arent-loaded-yet
+# import django
+# django.setup()
 
 #http://www.mengyaoren.com/tag/python-%E5%BE%AA%E7%8E%AF%E6%97%A5%E6%9C%9F-%E9%81%8D%E5%8E%86%E6%97%A5%E6%9C%9F-date-loop
 def datespan(startDate, endDate, delta=timedelta(days=1)):
