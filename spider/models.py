@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 from django.db import models
 from django.utils.encoding import smart_unicode
 
@@ -32,3 +35,24 @@ class Gossip(models.Model):
     publish_date = models.DateTimeField(null=True)
     scrawl_date = models.DateTimeField(null=True)
     status = models.IntegerField(null=True)
+
+
+class RumorBaike(models.Model):
+    """Model of a www.liuyanbaike.com"""
+    def __unicode__(self):
+        return "[" + smart_unicode(self.tf_type) + "]" + smart_unicode(self.title)
+
+    url = models.URLField(max_length=200, null=True)#url
+    title = models.CharField(max_length=300)#标题
+    rumor_desc = models.TextField()#流言内容
+    rumor_truth = models.TextField()#流言真相
+    rumor_content = models.TextField()#论证
+    tf_type = models.CharField(max_length=30)#真?假?新?论?
+
+    tags = models.CharField(max_length=300)#标签
+    category = models.CharField(max_length=100)#分类
+
+    source_url = models.URLField(max_length=200, null=True)#来源url
+    update_date = models.DateTimeField(null=True)#更新日期
+    scrawl_date = models.DateTimeField(null=True)#抓去日期
+    status = models.IntegerField(null=True)#抓去的状态
