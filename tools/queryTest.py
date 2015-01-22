@@ -24,4 +24,4 @@ if __name__ == "__main__":
     post_dict['MsgId'] = '123'
     post_dict['text'] = '123'
     
-    print post_data("http://rumordetector.sinaapp.com/entrance",post_dict)
+    print post_data("http://127.0.0.1:8000/entrance/",post_dict)
