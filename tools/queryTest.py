@@ -58,5 +58,5 @@ if __name__ == "__main__":
     post_dict['CreateTime'] = '123'
     print text_from_wechat(post_dict)
     
-    print post_data("http://127.0.0.1:8000/entrance/",post_dict)
+    print post_data("http://127.0.0.1:8000/entrance/",text_from_wechat(post_dict))
     #print post_data("http://rumordetector.sinaapp.com/entrance",text_from_wechat(post_dict))
