@@ -58,4 +58,4 @@ if __name__ == "__main__":
     post_dict['CreateTime'] = '123'
     print text_from_wechat(post_dict)
     
-    print post_data("http://rumordetector.sinaapp.com/entrance",text_from_wechat(post_dict))
+    print post_data("http://rumordetector.sinaapp.com/entrance/",text_from_wechat(post_dict))
