@@ -56,13 +56,10 @@ def reply_msg(request):
     return render_to_response('reply_msg.xml', ret_dic, mimetype="application/xml")
         
 def index(request):
-    try:
-        if not DEBUG and not check(request):
-            return HttpResponse("not valid")
+    if not DEBUG and not check(request):
+        return HttpResponse("not valid")
+    else:
+        if request.method == 'GET':
+            return HttpResponse(request.GET['echostr'])
         else:
-            if request.method == 'GET':
-                return HttpResponse(request.GET['echostr'])
-            else:
-                return reply_msg(request)
-    except:
-        return HttpResponse("errors!")
+            return reply_msg(request)
