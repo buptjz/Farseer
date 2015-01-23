@@ -71,8 +71,8 @@ def get_articles(content):
     cnt = 3
     for i in xrange(cnt):
         website = {}
-        website['Title'] = '文章' + i
-        website['Description'] = '测试图文' + i
+        website['Title'] = '文章' + str(i)
+        website['Description'] = '测试图文' + str(i)
         website['PicUrl'] = logo_url
         website['Url'] = 'www.baidu.com'
         ret.append(website)
