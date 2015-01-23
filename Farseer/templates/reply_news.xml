@@ -5,11 +5,13 @@
 <MsgType><![CDATA[{{MsgType}}]]></MsgType>
 <ArticleCount>{{ArticleCount}}</ArticleCount>
 <Articles>
+{%for item in news_list%}
 <item>
-<Title><![CDATA[{{Title}}]]></Title> 
-<Description><![CDATA[{{Description}}]]></Description>
-<PicUrl><![CDATA[{{PicUrl}}]]></PicUrl>
-<Url><![CDATA[{{Url}}]]></Url>
+<Title><![CDATA[{{item['Title']}}]]></Title> 
+<Description><![CDATA[{{item['Description']}}]]></Description>
+<PicUrl><![CDATA[{{item['PicUrl']}}]]></PicUrl>
+<Url><![CDATA[{{item['Url']}}]]></Url>
 </item>
+{%end for%}
 </Articles>
 </xml> 

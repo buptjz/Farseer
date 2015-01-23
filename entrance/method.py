@@ -55,14 +55,29 @@ def reply_msg(request):
     else:
         ret_msg.append("猫王大好人！")
     ret_dic = dict()
-    ret_dic['ToUserName'] = msg['ToUserName']
-    ret_dic['FromUserName'] = msg['FromUserName']
+    ret_dic['ToUserName'] = msg['FromUserName']
+    ret_dic['FromUserName'] = msg['ToUserName']
     ret_dic['CreateTime'] = int(time.time())
     ret_dic['MsgType'] = 'text'
     ret_dic['Content'] = "".join(ret_msg)
         
     return render_to_response('reply_msg.xml', ret_dic, mimetype="application/xml")
-    
+ 
+"""
+get nearest websites
+"""
+def get_articles(content):
+    ret = []
+    cnt = 3
+    for i in cnt:
+        website = {}
+        website['Title'] = '文章' + i
+        website['Description'] = '测试图文' + i
+        website['PicUrl'] = logo_url
+        website['Url'] = 'www.baidu.com'
+        ret.append(website)
+    return ret
+   
 """
 reply news
 request:POST query
@@ -72,14 +87,13 @@ def reply_news(request):
     msg = get_msg(request)
         
     ret_dic = dict()
-    ret_dic['ToUserName'] = msg['ToUserName']
-    ret_dic['FromUserName'] = msg['FromUserName']
+    ret_dic['ToUserName'] = msg['FromUserName']
+    ret_dic['FromUserName'] = msg['ToUserName']
     ret_dic['CreateTime'] = int(time.time())
     ret_dic['MsgType'] = 'news'
-    ret_dic['ArticleCount'] = 1
-    ret_dic['Title'] = '度娘在此'
-    ret_dic['Description'] = '测试图文'
-    ret_dic['PicUrl'] = logo_url    
-    ret_dic['Url'] = 'www.baidu.com'
+    
+    articles = get_articles(msg['Content'])        
+    ret_dic['ArticleCount'] = len(articles)
+    ret_dic['news_list'] = articles
         
     return render_to_response('reply_news.xml', ret_dic, mimetype="application/xml")
