@@ -69,7 +69,7 @@ get nearest websites
 def get_articles(content):
     ret = []
     cnt = 3
-    for i in cnt:
+    for i in xrange(cnt):
         website = {}
         website['Title'] = '文章' + i
         website['Description'] = '测试图文' + i
