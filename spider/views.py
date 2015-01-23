@@ -1,72 +1,39 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render,render_to_response
-import xml.etree.ElementTree as ET
+
 from django.http import HttpResponse
-import hashlib
-import time
 import Farseer
 DEBUG = Farseer.settings.DEBUG
 # Create your views here.
-token = 'catkingisagoodman'
 
-def abc(request):
-    return HttpResponse("<html>This is abc.</html>")
+from scrapy.crawler import Crawler
+from scrapy_spider.scrapy_spider.spiders.rumor_baike_spider import RumorBaikeSpider
+from scrapy import log, project
+from twisted.internet import reactor
+from billiard import Process
+from scrapy.utils.project import get_project_settings
 
-def index(request):
-    return HttpResponse("<html>Hello, world. You're at the <b>Spider</b> index.</html>")
+#http://stackoverflow.com/questions/22116493/run-a-scrapy-spider-in-a-celery-task
+#先后试用了多种方法，最终找到上述的方法，看起来可行
+class UrlCrawlerScript(Process):
+    def __init__(self, spider):
+        Process.__init__(self)
+        settings = get_project_settings()
+        self.crawler = Crawler(settings)
 
-def check(request):
-    try:
-        query_dic = request.GET
-        par = []
-        par.append(token)
-        par.append(query_dic['timestamp'])
-        par.append(query_dic['nonce'])
-        par.sort()
-        par_sha1 = hashlib.sha1("".join(par)).hexdigest()
-        return par_sha1 == query_dic['signature']
-    except:
-        return False
-        
-"""
-reply wechat users' messages.
-request:POST query
-"""        
-def reply_msg(request):
-    query_xml = ET.fromstring(request.body)
-    
-    wechat_user = query_xml.find('FromUserName').text   
-    dev_user = query_xml.find('ToUserName').text
-    msg_type = query_xml.find('MsgType').text    
-    msg = query_xml.find('Content').text
-    msg_ID = query_xml.find('MsgId')
-    
-    #msg = msg.decode("utf-8")
-    ret_msg = []
-    if msg.find(u'向兆威') != -1:
-        ret_msg.append("向大脸！")
-    elif msg.find(u"王继哲") != -1:
-        ret_msg.append("小短腿！")
-    else:
-        ret_msg.append("猫王大好人！")
-    ret_dic = dict()
-    ret_dic['ToUserName'] = wechat_user
-    ret_dic['FromUserName'] = dev_user
-    ret_dic['CreateTime'] = int(time.time())
-    ret_dic['MsgType'] = 'text'
-    ret_dic['Content'] = "".join(ret_msg)
-    
-    return render_to_response('reply_msg.xml', ret_dic, mimetype="application/xml")
-        
-def entrance(request):
-    try:
-        if not DEBUG and not check(request):
-            return HttpResponse("not valid")
-        else:
-            if request.method == 'GET':
-                return HttpResponse(request.GET['echostr'])
-            else:
-                return reply_msg(request)
-    except:
-        return HttpResponse("errors!")
-            
+        if not hasattr(project, 'crawler'):
+            self.crawler.install()
+            self.crawler.configure()
+            self.crawler.signals.connect(reactor.stop, signal=signals.spider_closed)
+        self.spider = spider
+
+    def run(self):
+        self.crawler.crawl(self.spider)
+        self.crawler.start()
+        reactor.run()
+
+def run_spider(request):
+    spider = RumorBaikeSpider(domain='liuyanbaike.com')
+    crawler = UrlCrawlerScript(spider)
+    crawler.start()
+    crawler.join()
+    return HttpResponse("<html>liuyanbaike runnining over.</html>")

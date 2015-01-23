@@ -5,7 +5,7 @@ import scrapy
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from scrapy_spider.items import RumorBaikeSpiderItem
+from scrapy_spider.scrapy_spider.items import RumorBaikeSpiderItem
 import pytz
 
 
@@ -15,8 +15,9 @@ class RumorBaikeSpider(scrapy.Spider):
 
     #http://www.liuyanbaike.com/article/29/
     base_url = "http://www.liuyanbaike.com/article/"
+    start_no = 2321
     end_no = 2322
-    start_urls = [base_url + str(i) for i in range(0,end_no)]
+    start_urls = [base_url + str(i) for i in range(start_no,end_no)]
 
     def parse(self, response):
         if response.url.endswith(".com"):
