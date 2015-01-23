@@ -7,11 +7,11 @@
 <Articles>
 {%for item in news_list%}
 <item>
-<Title><![CDATA[{{item['Title']}}]]></Title> 
-<Description><![CDATA[{{item['Description']}}]]></Description>
-<PicUrl><![CDATA[{{item['PicUrl']}}]]></PicUrl>
-<Url><![CDATA[{{item['Url']}}]]></Url>
+<Title><![CDATA[{{item.Title}}]]></Title> 
+<Description><![CDATA[{{item.Description}}]]></Description>
+<PicUrl><![CDATA[{{item.PicUrl}}]]></PicUrl>
+<Url><![CDATA[{{item.Url}}]]></Url>
 </item>
-{%end for%}
+{%endfor%}
 </Articles>
 </xml> 
