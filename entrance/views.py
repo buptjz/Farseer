@@ -17,4 +17,4 @@ def index(request):
         if request.method == 'GET':
             return HttpResponse(request.GET['echostr'])
         else:
-            return method.reply_msg(request)
+            return method.reply_news(request)
