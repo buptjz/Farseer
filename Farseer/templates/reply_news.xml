@@ -9,7 +9,9 @@
 <item>
 <Title><![CDATA[{{item.Title}}]]></Title> 
 <Description><![CDATA[{{item.Description}}]]></Description>
+{%if 'PicUrl' in item%}
 <PicUrl><![CDATA[{{item.PicUrl}}]]></PicUrl>
+{%endif%}
 <Url><![CDATA[{{item.Url}}]]></Url>
 </item>
 {%endfor%}

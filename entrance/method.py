@@ -73,7 +73,8 @@ def get_articles(content):
         website = {}
         website['Title'] = '文章' + str(i)
         website['Description'] = '测试图文' + str(i)
-        website['PicUrl'] = logo_url
+        if i == 0:
+            website['PicUrl'] = logo_url
         website['Url'] = 'www.baidu.com'
         ret.append(website)
     return ret
