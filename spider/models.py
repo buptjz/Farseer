@@ -43,6 +43,7 @@ class RumorBaike(models.Model):
         return "[" + smart_unicode(self.tf_type) + "]" + smart_unicode(self.title)
 
     url = models.URLField(max_length=200, null=True)#url
+    page_id = models.PositiveIntegerField(default=0)#page id
     title = models.CharField(max_length=300)#标题
     rumor_desc = models.TextField()#流言内容
     rumor_truth = models.TextField()#流言真相

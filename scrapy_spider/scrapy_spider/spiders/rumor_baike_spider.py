@@ -5,19 +5,25 @@ import scrapy
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from scrapy_spider.scrapy_spider.items import RumorBaikeSpiderItem
+# from scrapy_spider.scrapy_spider.items import RumorBaikeSpiderItem
+from scrapy_spider.items import RumorBaikeSpiderItem
 import pytz
 
+from spider.models import RumorBaike
 
 class RumorBaikeSpider(scrapy.Spider):
+
     name = "rumorbaike"
     allowed_domains = ["liuyanbaike.com"]
 
     #http://www.liuyanbaike.com/article/29/
     base_url = "http://www.liuyanbaike.com/article/"
-    start_no = 2321
-    end_no = 2322
-    start_urls = [base_url + str(i) for i in range(start_no,end_no)]
+    rbi = RumorBaike.objects.order_by('-page_id')[0]
+    start_no = rbi.page_id + 1
+    print 'starting crawl page from %d' % start_no
+    end_no = rbi.page_id + 31
+    start_urls = [base_url + str(i) for i in range(start_no, end_no)]
+    # start_urls = []
 
     def parse(self, response):
         if response.url.endswith(".com"):
@@ -25,6 +31,12 @@ class RumorBaikeSpider(scrapy.Spider):
 
         rbsi = RumorBaikeSpiderItem()
         rbsi['url'] = response.url
+
+        try:
+            rbsi['page_id'] = int(response.url.split('/')[-2])
+        except:
+            print "No pid ,return"
+            return
 
         try:
             rbsi['title'] = response.xpath('//h2[@class="rumor-title"]/text()').extract()[0]
